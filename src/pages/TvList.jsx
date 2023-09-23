@@ -1,9 +1,7 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import CardView from '../components/CardView';
 import Loading from '../components/Loading';
-import { useFetchMovies } from '../services/fetchMovies';
 import { useFetchTvs } from '../services/fetchTvs';
+import Container from '../components/Container';
 
 const TvList = () => {
   // const [tvs, setTvs] = useState([]);
@@ -36,13 +34,11 @@ const TvList = () => {
     return <Loading />;
   }
   return (
-    <div className='flex flex-row justify-center itmes-center'>
-      <div className='grid grid-cols-4 p-5 gap-4 auto-cols-max'>
-        {tvs.map((tv, index) => (
-          <CardView key={index} data={tv} url={'tv'} />
-        ))}
-      </div>
-    </div>
+    <Container>
+      {tvs.map((tv, index) => (
+        <CardView key={index} data={tv} url={'tv'} />
+      ))}
+    </Container>
   );
 };
 

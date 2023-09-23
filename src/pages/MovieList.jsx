@@ -1,8 +1,7 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import CardView from '../components/CardView';
 import Loading from '../components/Loading';
 import { useFetchMovies } from '../services/fetchMovies';
+import Container from '../components/Container';
 
 const MovieList = () => {
   // const [movies, setMovies] = useState([]);
@@ -40,13 +39,11 @@ const MovieList = () => {
     return <Loading />;
   }
   return (
-    <div className='flex flex-row justify-center itmes-center'>
-      <div className='grid grid-cols-4 p-5 gap-4 auto-cols-max'>
-        {movies?.map((movie, index) => (
-          <CardView data={movie} url={'movie'} key={index} />
-        ))}
-      </div>
-    </div>
+    <Container>
+      {movies?.map((movie, index) => (
+        <CardView data={movie} url={'movie'} key={index} />
+      ))}
+    </Container>
   );
 };
 

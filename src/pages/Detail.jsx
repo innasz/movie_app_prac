@@ -1,5 +1,3 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 import { useFetchMovieAndTv } from '../services/fetchMovieAndTv';
@@ -43,6 +41,10 @@ const Detail = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (error) {
+    return <h1>{error.message}</h1>;
   }
 
   return (
