@@ -2,46 +2,49 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
+import { useFetchMovieAndTv } from '../services/fetchMovieAndTv';
 
 const Detail = () => {
   const { movieId, tvId } = useParams();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const id = pathname.includes('movie') ? movieId : tvId;
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const provider = pathname.includes('movie') ? 'movie' : 'tv';
-  console.log('----', movieId, tvId);
-  console.log('----------------------', id);
-  const [item, setItem] = useState({});
 
-  const getItem = async () => {
-    try {
-      setIsLoading(true);
-      const options = {
-        headers: {
-          Authorization:
-            'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOWZhYTk0MmRkMGQzZTA0NTg4YjBkZGNjNzRjY2UyMSIsInN1YiI6IjYzYmMyZjA4Zjg1OTU4MDA4NzQ4MmMwNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eXyrC0pHaFplxQNuN9BQ4YrFzPNpE4l2aolx80lC3dE',
-        },
-      };
-      const result = await axios.get(
-        `https://api.themoviedb.org/3/${provider}/${id}`,
-        options
-      );
-      console.log('response', result.data);
-      setItem(result.data);
-      setIsLoading(false);
-    } catch (e) {
-      setIsLoading(false);
-      console.log(e);
-    }
-  };
+  const { data: item, isLoading, error } = useFetchMovieAndTv(provider, id);
+  // const [item, setItem] = useState({});
 
-  useEffect(() => {
-    getItem();
-  }, []);
+  // const getItem = async () => {
+  //   try {
+  //     setIsLoading(true);
+  //     const options = {
+  //       headers: {
+  //         Authorization:
+  //           'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOWZhYTk0MmRkMGQzZTA0NTg4YjBkZGNjNzRjY2UyMSIsInN1YiI6IjYzYmMyZjA4Zjg1OTU4MDA4NzQ4MmMwNyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.eXyrC0pHaFplxQNuN9BQ4YrFzPNpE4l2aolx80lC3dE',
+  //       },
+  //     };
+  //     const result = await axios.get(
+  //       `https://api.themoviedb.org/3/${provider}/${id}`,
+  //       options
+  //     );
+  //     console.log('response', result.data);
+  //     setItem(result.data);
+  //     setIsLoading(false);
+  //   } catch (e) {
+  //     setIsLoading(false);
+  //     console.log(e);
+  //   }
+  // };
 
-  console.log('====', item.backdrop_path);
-  console.log('item', item);
+  // useEffect(() => {
+  //   getItem();
+  // }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       {' '}
@@ -51,7 +54,6 @@ const Detail = () => {
       >
         Back
       </button>
-      {isLoading && <Loading />}
       <div className='flex flex-row justify-center itmes-center'>
         <div className='grid pt-10'>
           <div class='max-w-sm rounded overflow-hidden shadow-lg'>
